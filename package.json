@@ -2,7 +2,7 @@
   "name": "ember-cli-simple-auth-oauth2",
   "author": "Marco Otte-Witte",
   "license": "MIT",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Include the Ember Simple Auth OAuth 2.0 extension library into an Ember CLI application.",
   "main": "index.js",
   "private": true,
