@@ -1,5 +1,5 @@
 {
-  "name": "ember-cli-simple-auth2",
+  "name": "ember-cli-simple-auth-oauth2",
   "author": "Marco Otte-Witte",
   "license": "MIT",
   "version": "0.6.1",
