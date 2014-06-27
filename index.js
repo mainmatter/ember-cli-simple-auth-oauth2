@@ -25,9 +25,11 @@ EmberCLISimpleAuthOauth2.prototype.included = function included(app) {
   this.app = app;
 
   this.app.import('vendor/ember-simple-auth/simple-auth-oauth2.amd.js', {
-    'simple-auth-oauth2/authenticators/oauth2': ['default'],
-    'simple-auth-oauth2/authorizers/oauth2':    ['default'],
-    'simple-auth-oauth2/initializer':           ['default']
+    exports: {
+      'simple-auth-oauth2/authenticators/oauth2': ['default'],
+      'simple-auth-oauth2/authorizers/oauth2':    ['default'],
+      'simple-auth-oauth2/initializer':           ['default']
+    }
   });
 };
 
