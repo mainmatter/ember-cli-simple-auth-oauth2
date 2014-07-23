@@ -1,3 +1,13 @@
+(function(global) {
+  var define = global.define;
+  var require = global.require;
+  var Ember = global.Ember;
+  if (typeof Ember === 'undefined' && typeof require !== 'undefined') {
+    Ember = require('ember');
+  }
+
+Ember.libraries.register('Ember Simple Auth OAuth 2.0', '0.6.3');
+
 define("simple-auth-oauth2/authenticators/oauth2", 
   ["simple-auth/authenticators/base","simple-auth/utils/is-secure-url","simple-auth/utils/get-global-config","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
@@ -5,9 +15,6 @@ define("simple-auth-oauth2/authenticators/oauth2",
     var Base = __dependency1__["default"];
     var isSecureUrl = __dependency2__["default"];
     var getGlobalConfig = __dependency3__["default"];
-
-    var global = (typeof window !== 'undefined') ? window : {},
-        Ember = global.Ember;
 
     /**
       Authenticator that conforms to OAuth 2
@@ -125,22 +132,22 @@ define("simple-auth-oauth2/authenticators/oauth2",
       restore: function(data) {
         var _this = this;
         return new Ember.RSVP.Promise(function(resolve, reject) {
-          if (!Ember.isEmpty(data.access_token)) {
-            var now = (new Date()).getTime();
-            if (!Ember.isEmpty(data.expires_at) && data.expires_at < now) {
-              if (_this.refreshAccessTokens) {
-                _this.refreshAccessToken(data.expires_in, data.refresh_token).then(function(data) {
-                  resolve(data);
-                }, reject);
-              } else {
-                reject();
-              }
+          var now = (new Date()).getTime();
+          if (!Ember.isEmpty(data.expires_at) && data.expires_at < now) {
+            if (_this.refreshAccessTokens) {
+              _this.refreshAccessToken(data.expires_in, data.refresh_token).then(function(data) {
+                resolve(data);
+              }, reject);
+            } else {
+              reject();
+            }
+          } else {
+            if (Ember.isEmpty(data.access_token)) {
+              reject();
             } else {
               _this.scheduleAccessTokenRefresh(data.expires_in, data.expires_at, data.refresh_token);
               resolve(data);
             }
-          } else {
-            reject();
           }
         });
       },
@@ -255,7 +262,7 @@ define("simple-auth-oauth2/authenticators/oauth2",
           if (Ember.isEmpty(expiresAt) && !Ember.isEmpty(expiresIn)) {
             expiresAt = new Date(now + expiresIn * 1000).getTime();
           }
-          var offset = (Math.floor(Math.random() * 15) + 5) * 1000;
+          var offset = (Math.floor(Math.random() * 5) + 5) * 1000;
           if (!Ember.isEmpty(refreshToken) && !Ember.isEmpty(expiresAt) && expiresAt > now - offset) {
             Ember.run.cancel(this._refreshTokenTimeout);
             delete this._refreshTokenTimeout;
@@ -297,7 +304,7 @@ define("simple-auth-oauth2/authenticators/oauth2",
       */
       absolutizeExpirationTime: function(expiresIn) {
         if (!Ember.isEmpty(expiresIn)) {
-          return new Date((new Date().getTime()) + (expiresIn - 5) * 1000).getTime();
+          return new Date((new Date().getTime()) + expiresIn * 1000).getTime();
         }
       }
     });
@@ -308,9 +315,6 @@ define("simple-auth-oauth2/authorizers/oauth2",
     "use strict";
     var Base = __dependency1__["default"];
     var isSecureUrl = __dependency2__["default"];
-
-    var global = (typeof window !== 'undefined') ? window : {},
-        Ember = global.Ember;
 
     /**
       Authorizer that conforms to OAuth 2
@@ -354,9 +358,6 @@ define("simple-auth-oauth2/ember",
   ["./initializer"],
   function(__dependency1__) {
     "use strict";
-    var global = (typeof window !== 'undefined') ? window : {},
-        Ember = global.Ember;
-
     var initializer = __dependency1__["default"];
 
     Ember.onLoad('Ember.Application', function(Application) {
@@ -367,9 +368,6 @@ define("simple-auth-oauth2/initializer",
   ["simple-auth-oauth2/authenticators/oauth2","simple-auth-oauth2/authorizers/oauth2","exports"],
   function(__dependency1__, __dependency2__, __exports__) {
     "use strict";
-    var global = (typeof window !== 'undefined') ? window : {},
-        Ember = global.Ember;
-
     var Authenticator = __dependency1__["default"];
     var Authorizer = __dependency2__["default"];
 
@@ -382,3 +380,4 @@ define("simple-auth-oauth2/initializer",
       }
     };
   });
+})((typeof global !== 'undefined') ? global : window);
