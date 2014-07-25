@@ -19,7 +19,7 @@ https://github.com/simplabs/ember-simple-auth
 
 ## Configuration
 
-```
+```js
 // initializers/simple-auth-config.js
 export default {
   name: 'simple-auth-config',
