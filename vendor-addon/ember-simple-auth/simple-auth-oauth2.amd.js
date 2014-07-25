@@ -6,7 +6,7 @@
     Ember = require('ember');
   }
 
-Ember.libraries.register('Ember Simple Auth OAuth 2.0', '0.6.3');
+Ember.libraries.register('Ember Simple Auth OAuth 2.0', '0.6.4');
 
 define("simple-auth-oauth2/authenticators/oauth2", 
   ["simple-auth/authenticators/base","simple-auth/utils/is-secure-url","simple-auth/utils/get-global-config","exports"],
@@ -179,7 +179,10 @@ define("simple-auth-oauth2/authenticators/oauth2",
             Ember.run(function() {
               var expiresAt = _this.absolutizeExpirationTime(response.expires_in);
               _this.scheduleAccessTokenRefresh(response.expires_in, expiresAt, response.refresh_token);
-              resolve(Ember.$.extend(response, { expires_at: expiresAt }));
+              if (!Ember.isEmpty(expiresAt)) {
+                response = Ember.merge(response, { expires_at: expiresAt });
+              }
+              resolve(response);
             });
           }, function(xhr, status, error) {
             Ember.run(function() {
@@ -286,7 +289,7 @@ define("simple-auth-oauth2/authenticators/oauth2",
               expiresIn     = response.expires_in || expiresIn;
               refreshToken  = response.refresh_token || refreshToken;
               var expiresAt = _this.absolutizeExpirationTime(expiresIn);
-              var data      = Ember.$.extend(response, { expires_in: expiresIn, expires_at: expiresAt, refresh_token: refreshToken });
+              var data      = Ember.merge(response, { expires_in: expiresIn, expires_at: expiresAt, refresh_token: refreshToken });
               _this.scheduleAccessTokenRefresh(expiresIn, null, refreshToken);
               _this.trigger('sessionDataUpdated', data);
               resolve(data);
