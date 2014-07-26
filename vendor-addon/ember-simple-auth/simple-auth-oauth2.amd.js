@@ -103,6 +103,78 @@ define("simple-auth-oauth2/authenticators/oauth2",
         @private
       */
       _refreshTokenTimeout: null,
+      
+      /**
+        The grant_type to use
+
+        This value can be configured via the global environment object:
+
+        ```js
+        window.ENV = window.ENV || {};
+        window.ENV['simple-auth-oauth2'] = {
+          grantType: 'client_credentials'
+        }
+        ```
+
+        @property grantType
+        @type String
+        @default null
+      */
+      grantType: 'password',
+
+      /**
+        The scope to use
+
+        This value can be configured via the global environment object:
+
+        ```js
+        window.ENV = window.ENV || {};
+        window.ENV['simple-auth-oauth2'] = {
+          scope: 'something'
+        }
+        ```
+
+        @property scope
+        @type String
+        @default null
+      */
+      scope: '',
+
+      /**
+        The client_id to use
+
+        This value can be configured via the global environment object:
+
+        ```js
+        window.ENV = window.ENV || {};
+        window.ENV['simple-auth-oauth2'] = {
+          clientId: 'some-long-string'
+        }
+        ```
+
+        @property clientId
+        @type String
+        @default null
+      */
+      clientId: '',
+
+      /**
+        The client_secret to use
+
+        This value can be configured via the global environment object:
+
+        ```js
+        window.ENV = window.ENV || {};
+        window.ENV['simple-auth-oauth2'] = {
+          clientSecret: 'some-long-string'
+        }
+        ```
+
+        @property clientSecret
+        @type String
+        @default null
+      */
+      clientSecret: '',
 
       /**
         @method init
@@ -113,6 +185,10 @@ define("simple-auth-oauth2/authenticators/oauth2",
         this.serverTokenEndpoint           = globalConfig.serverTokenEndpoint || this.serverTokenEndpoint;
         this.serverTokenRevokationEndpoint = globalConfig.serverTokenRevokationEndpoint || this.serverTokenRevokationEndpoint;
         this.refreshAccessTokens           = globalConfig.refreshAccessTokens || this.refreshAccessTokens;
+        this.grantType                     = globalConfig.grantType || this.grantType;
+        this.scope                         = globalConfig.scope || this.scope;
+        this.clientId                      = globalConfig.clientId || this.clientId;
+        this.clientSecret                  = globalConfig.clientSecret || this.clientSecret;
       },
 
       /**
@@ -174,7 +250,14 @@ define("simple-auth-oauth2/authenticators/oauth2",
       authenticate: function(credentials) {
         var _this = this;
         return new Ember.RSVP.Promise(function(resolve, reject) {
-          var data = { grant_type: 'password', username: credentials.identification, password: credentials.password };
+          var data = {
+          	username: credentials.identification,
+          	password: credentials.password,
+          	grant_type: _this.grantType,
+          	scope: _this.scope,
+          	client_id: _this.clientId,
+          	client_secret: _this.clientSecret
+          };
           _this.makeRequest(_this.serverTokenEndpoint, data).then(function(response) {
             Ember.run(function() {
               var expiresAt = _this.absolutizeExpirationTime(response.expires_in);
