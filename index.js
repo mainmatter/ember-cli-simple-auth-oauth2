@@ -10,7 +10,7 @@ module.exports = {
 
     this.app.import(app.bowerDirectory + '/ember-simple-auth/simple-auth.amd.js', {
       exports: {
-        'simple-auth': [
+        'simple-auth-oauth2': [
           'authenticators/oauth2',
           'authorizers/oauth2',
           'initializer'
