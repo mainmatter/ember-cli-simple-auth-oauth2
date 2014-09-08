@@ -12,6 +12,7 @@ To install simply run
 
 ```
 npm install --save-dev ember-cli-simple-auth-oauth2
+ember generate ember-cli-simple-auth-oauth2
 ```
 
 in your Ember CLI project's root.
