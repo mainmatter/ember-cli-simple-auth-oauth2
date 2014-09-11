@@ -6,7 +6,7 @@ Addon.
 
 ## Installation
 
-**Ember Simple Auth OAuth 2.0 requires at least Ember CLI 0.0.42.**
+**Ember Simple Auth OAuth 2.0 requires at least Ember CLI 0.0.44.**
 
 To install simply run
 
