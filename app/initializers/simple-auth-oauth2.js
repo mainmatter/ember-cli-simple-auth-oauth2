@@ -7,7 +7,7 @@ export default {
   name:       'simple-auth-oauth2',
   before:     'simple-auth',
   initialize: function(container, application) {
-    Configuration.load(container, ENV);
+    Configuration.load(container, ENV['simple-auth-oauth2'] || {});
     container.register('simple-auth-authorizer:oauth2-bearer', Authorizer);
     container.register('simple-auth-authenticator:oauth2-password-grant', Authenticator);
   }
