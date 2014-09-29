@@ -16,6 +16,7 @@ ember generate ember-cli-simple-auth-oauth2
 ```
 
 in your Ember CLI project's root.
+
 ### Configuration
 
 Ember Simple Auth OAuth 2.0 uses the Ember CLI project's configuration as
