@@ -1,4 +1,4 @@
-import Configuration from './configuration';
+import Configuration from 'simple-auth-oauth2/configuration';
 import Authenticator from 'simple-auth-oauth2/authenticators/oauth2';
 import Authorizer from 'simple-auth-oauth2/authorizers/oauth2';
 import ENV from '../config/environment';
