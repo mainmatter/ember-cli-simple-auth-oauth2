@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/simplabs/ember-cli-simple-auth-oauth2",
   "dependencies": {
-    "ember-cli-simple-auth": "git+ssh://git@github.com:simplabs/ember-cli-simple-auth.git"
+    "ember-cli-simple-auth": "0.6.7"
   }
 }
