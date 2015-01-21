@@ -8,14 +8,18 @@ Addon.
 
 **Ember Simple Auth OAuth 2.0 requires at least Ember CLI 0.0.44.**
 
-To install simply run
+```
+ember install:addon ember-cli-simple-auth-oauth2
+```
+
+in your Ember CLI project's root.
+
+If you're using Ember CLI 0.1.4 or older, run
 
 ```
 npm install --save-dev ember-cli-simple-auth-oauth2
 ember generate ember-cli-simple-auth-oauth2
 ```
-
-in your Ember CLI project's root.
 
 ### Configuration
 
